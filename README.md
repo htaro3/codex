@@ -1,3 +1,4 @@
+
 # codex
 
 This repository contains a collection of tools for agents.
@@ -7,40 +8,74 @@ This repository contains a collection of tools for agents.
 The `host_agent` package provides a class that connects to Vertex AI's Gemini model and communicates with remote agents using the MCP protocol.
 =======
 # Codex
+=======
+This project demonstrates a simple multi‑agent architecture using FastAPI and a
+Next.js frontend.  Agents communicate via the Agent2Agent (A2A) protocol and use
+Gemini (via Vertex AI) through a small stub.
 
-This repository contains a minimal Next.js frontend for interacting with a multi-agent backend.
 
-## Prerequisites
+## Architecture
 
-- Node.js 18+ with npm
+- **Host Agent** – receives user queries, delegates work to remote agents and
+  combines their results.
+- **Researcher Agent** – researches a topic and returns key points.
+- **Summarizer Agent** – summarizes text into a short paragraph.
+- **A2A Utilities** – helper functions for formatting and sending MCP messages.
 
-## Running the Frontend
+Each agent exposes an HTTP endpoint and communicates using minimal MCP JSON
+messages.
 
-1. Install dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
+## Backend Setup
 
-2. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   The app will be available at `http://localhost:3000`.
+Requirements:
 
-The frontend expects an agent backend URL specified via `NEXT_PUBLIC_BACKEND_URL`.
-By default it uses `http://localhost:8000`. To change it:
+- Python 3.10+
+
+Install dependencies:
 
 ```bash
-NEXT_PUBLIC_BACKEND_URL=http://localhost:5000 npm run dev
+pip install -r requirements.txt
 ```
 
-The backend should expose a `POST /query` endpoint that returns JSON:
+Run the remote agents in separate terminals:
+
+```bash
+uvicorn codex.remote_agents.researcher.app:app --port 8001
+uvicorn codex.remote_agents.summarizer.app:app --port 8002
+```
+
+Start the host agent (used by the frontend):
+
+```bash
+uvicorn codex.host_agent.app:app --port 8000
+```
+
+## Frontend Setup
+
+Requirements:
+
+- Node.js 18+
+
+Install and run:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The UI will be available at `http://localhost:3000` and will send requests to the
+host agent at `http://localhost:8000/query`.
+
+## Example Response Format
+
+The host agent returns JSON like:
 
 ```json
 {
-  "responses": ["agent reply 1", "agent reply 2"]
+  "responses": ["research result", "gemini result", "summary"]
 }
 ```
 
-The web page allows you to send queries and displays the responses.
+`ask_gemini` currently returns a stubbed response. Replace the implementation in
+`src/codex/vertex.py` with a real Vertex AI client to use Gemini 1.5 Pro.
