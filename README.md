@@ -1,5 +1,3 @@
-# Codex Multi-Agent Prototype
-
 This project demonstrates a simple multi‑agent architecture using FastAPI and a
 Next.js frontend.  Agents communicate via the Agent2Agent (A2A) protocol and use
 Gemini (via Vertex AI) through a small stub.
