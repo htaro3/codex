@@ -1,6 +1,18 @@
+
+# codex
+
+This repository contains a collection of tools for agents.
+
+## Host Agent
+
+The `host_agent` package provides a class that connects to Vertex AI's Gemini model and communicates with remote agents using the MCP protocol.
+=======
+# Codex
+=======
 This project demonstrates a simple multi‑agent architecture using FastAPI and a
 Next.js frontend.  Agents communicate via the Agent2Agent (A2A) protocol and use
 Gemini (via Vertex AI) through a small stub.
+
 
 ## Architecture
 
