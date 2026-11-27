@@ -12,7 +12,7 @@ def json_for(url):
  req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0","Accept-Language":"ja,en;q=0.8"})
  with urllib.request.urlopen(req,timeout=18) as r: txt=r.read(4500000).decode("utf-8","replace")
  p=Parser();p.feed(txt);return json.loads(p.text)
-for name,url in [("search","https://paypayfleamarket.yahoo.co.jp/search/%E3%83%9F%E3%83%8BPC?sort=-created"),("item","https://paypayfleamarket.yahoo.co.jp/item/z732559062")]:
+for name,url in [("search","https://paypayfleamarket.yahoo.co.jp/search/%E3%83%9F%E3%83%8BPC?sort=-created"),("item","https://paypayfleamarket.yahoo.co.jp/item/z733042034")]:
  try:
   obj=json_for(url);state=obj["props"]["initialState"]
   if name=="search":
