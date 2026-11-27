@@ -69,7 +69,15 @@ def retrieve(url, *, timeout=15):
             raise RuntimeError("HTTP %s" % response.status)
         return response.read(2_000_000).decode("utf-8", "replace")
 
+_ROBOTS = None
+
 def public_allowed(url):
+    global _ROBOTS
+    if _ROBOTS is not None:
+        allowed = _ROBOTS.can_fetch(USER_AGENT, url)
+        if not allowed:
+            print('ROBOTS_DISALLOW', url, flush=True)
+        return allowed
     robots_url = ROOT + "/robots.txt"
     try:
         raw = retrieve(robots_url)
@@ -78,6 +86,7 @@ def public_allowed(url):
         return False
     rp = urllib.robotparser.RobotFileParser()
     rp.parse(raw.splitlines())
+    _ROBOTS = rp
     ok = rp.can_fetch(USER_AGENT, url)
     if not ok:
         print("ROBOTS_DISALLOW", url, flush=True)
