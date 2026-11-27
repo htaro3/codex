@@ -14,4 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Verify scanner without issuing notifications
-        run: python3 pc_watch/watch.py --dry-run
+        run: |
+          python3 pc_watch/watch.py --dry-run
+          python3 pc_watch/inspect_schema.py
