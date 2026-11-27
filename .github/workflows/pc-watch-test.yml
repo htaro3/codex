@@ -1,0 +1,17 @@
+name: Mini PC source smoke test
+on:
+  push:
+    paths:
+      - 'pc_watch/**'
+      - '.github/workflows/pc-watch-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe marketplace pages without notifications
+        run: python3 pc_watch/probe.py
