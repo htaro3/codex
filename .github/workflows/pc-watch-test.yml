@@ -19,3 +19,4 @@ jobs:
           python3 pc_watch/inspect.py
           python3 pc_watch/inspect_json.py
           python3 pc_watch/inspect_schema.py
+          python3 pc_watch/inspect_sort.py
