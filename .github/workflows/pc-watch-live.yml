@@ -1,7 +1,7 @@
 name: Mini PC deal watcher (every 5 minutes)
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '2-59/5 * * * *'
   push:
     paths:
       - '.github/workflows/pc-watch-live.yml'
