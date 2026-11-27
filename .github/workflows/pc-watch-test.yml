@@ -14,4 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Probe marketplace pages without notifications
-        run: python3 pc_watch/probe.py
+        run: |
+          python3 pc_watch/probe.py
+          python3 pc_watch/inspect.py
