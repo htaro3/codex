@@ -1,0 +1,24 @@
+name: Mini PC deal watcher (every 5 minutes)
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  push:
+    paths:
+      - '.github/workflows/pc-watch-live.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: pc-watch-marketplace
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check latest mini PC listings and create issues only for strong buys
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 pc_watch/watch.py
