@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check public GitHub Actions workflow state from runner network."""
 import json
+import os
 import urllib.error
 import urllib.request
 
@@ -9,7 +10,10 @@ for url in [
     "https://api.github.com/repos/htaro3/codex/actions/workflows/pc-watch-live.yml",
 ]:
     try:
-        req=urllib.request.Request(url,headers={"User-Agent":"MiniPCWatch/0.2","Accept":"application/vnd.github+json"})
+        headers={"User-Agent":"MiniPCWatch/0.2","Accept":"application/vnd.github+json"}
+        if os.environ.get("GITHUB_TOKEN"):
+            headers["Authorization"]="Bearer "+os.environ["GITHUB_TOKEN"]
+        req=urllib.request.Request(url,headers=headers)
         with urllib.request.urlopen(req,timeout=15) as r:
             obj=json.load(r)
         if "workflows" in obj:
