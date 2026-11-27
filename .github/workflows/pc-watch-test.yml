@@ -1,22 +1,17 @@
-name: Mini PC source smoke test
+name: Mini PC scanner dry run
 on:
   push:
     paths:
-      - 'pc_watch/**'
+      - 'pc_watch/watch.py'
       - '.github/workflows/pc-watch-test.yml'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  probe:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
-      - name: Probe marketplace pages without notifications
-        run: |
-          python3 pc_watch/probe.py
-          python3 pc_watch/inspect.py
-          python3 pc_watch/inspect_json.py
-          python3 pc_watch/inspect_schema.py
-          python3 pc_watch/inspect_sort.py
+      - name: Verify scanner without issuing notifications
+        run: python3 pc_watch/watch.py --dry-run
