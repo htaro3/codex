@@ -17,3 +17,4 @@ jobs:
         run: |
           python3 pc_watch/probe.py
           python3 pc_watch/inspect.py
+          python3 pc_watch/inspect_json.py
