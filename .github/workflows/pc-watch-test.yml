@@ -21,3 +21,4 @@ jobs:
           python3 -m unittest discover -s pc_watch -p 'test_*.py' -v
           python3 pc_watch/watch.py --dry-run
           python3 pc_watch/workflow_state.py
+          python3 pc_watch/inspect_schema.py
